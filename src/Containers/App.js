@@ -3,6 +3,7 @@ import axios from 'axios';
 import VideoList from './Video-list';
 import VideoDetail from '../Components/Video-details';
 import SearchBar from '../Components/Search-bar';
+import Video from '../Components/Video';
 
 const API_END_POINT = "https://api.themoviedb.org/3/";
 const POPULAR_MOVIES_URL = "discover/movie?language=fr&sort_by=popularity.desc&include_adult=false&append_to_response=images";
@@ -46,7 +47,7 @@ class App extends React.Component {
   render(){
 
     const checkMoviesList = () => { 
-      if (this.state.moviesList.length >= 5) {
+      if (this.state.moviesList.length === 5) {
         return <VideoList moviesList={ this.state.moviesList }/>
       }
     }
@@ -55,6 +56,7 @@ class App extends React.Component {
       <div>
         <SearchBar />
         { checkMoviesList() }
+        <Video videoId={this.state.currentMovie.videoId} />
         <VideoDetail title={ this.state.currentMovie.title } description={this.state.currentMovie.overview} />
       </div>
       )
