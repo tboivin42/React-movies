@@ -23,8 +23,23 @@ class App extends React.Component {
   }
 
   initMovies() {
-    axios.get(`${API_END_POINT}${ POPULAR_MOVIES_URL}&${API_KEY}`).then(function(response){
-      this.setState({moviesList: response.data.results.slice(1, 6), currentMovie: response.data.results[0]});
+    axios.get(`${API_END_POINT}${ POPULAR_MOVIES_URL }&${API_KEY}`).then(function(response){
+      this.setState({ 
+        moviesList: response.data.results.slice(1, 6),
+        currentMovie: response.data.results[0]}, function(response){
+        this.applyVideoToCurrentMovie();
+      });
+    }.bind(this));
+  }
+
+  applyVideoToCurrentMovie() {
+    axios.get(`${API_END_POINT}movie/${this.state.currentMovie.id}?${API_KEY}&append_to_response=videos&include_adult=false`).then(function(response){
+      const youtubeKey = response.data.videos.results[0].key;
+      let newCurrentMovieState = this.state.currentMovie;
+      newCurrentMovieState.videoId = youtubeKey;
+      this.setState({
+        currentMovie: newCurrentMovieState
+      });
     }.bind(this));
   }
   
