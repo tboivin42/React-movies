@@ -8,6 +8,7 @@ import Video from '../Components/Video';
 const API_END_POINT = "https://api.themoviedb.org/3/";
 const POPULAR_MOVIES_URL = "discover/movie?language=fr&sort_by=popularity.desc&include_adult=false&append_to_response=images";
 const API_KEY = "api_key=c54a42a9a49a29240ec7bdc964c87f1c";
+const SEARCH_URL = "search/movie?language=fr&include_adult=false";
 
 class App extends React.Component {
 
@@ -45,12 +46,26 @@ class App extends React.Component {
   }
 
   onClickListItem(movie) {
-    console.log(movie);
     this.setState({
-      currentMovie: movie}, function() {
+      currentMovie: movie}, () => {
       this.applyVideoToCurrentMovie();
       }
     )
+  }
+
+  onClickSearch(searchText) {
+    if (searchText) {
+      axios.get(`${API_END_POINT}${SEARCH_URL }&${API_KEY}&query=${searchText}`).then(function(response) {
+        if (response.data && response.data.results[0]) {
+          if (response.data.results[0].id !== this.state.currentMovie.id) {
+            this.setState({
+              currentMovie: response.data.results[0]}, (response) => {
+              this.applyVideoToCurrentMovie();
+            })
+          }
+        }
+      }.bind(this));
+    }
   }
   
   render(){
@@ -61,15 +76,27 @@ class App extends React.Component {
       }
     }
 
+    const renderVideo = () => {
+      if (this.state.currentMovie.videoId) {
+        return (
+          <div>
+            <Video videoId={this.state.currentMovie.videoId} />
+            <VideoDetail title={ this.state.currentMovie.title } description={this.state.currentMovie.overview} />
+          </div>
+        );
+      } else {
+          return <div>Pas de donée</div>
+      }
+    }
+
     return (
       <div>
         <div className="search_bar">
-          <SearchBar />
+          <SearchBar callback={this.onClickSearch.bind(this)}/>
         </div>
         <div className="row">
           <div className="col-md-8">
-            <Video videoId={this.state.currentMovie.videoId} />
-            <VideoDetail title={ this.state.currentMovie.title } description={this.state.currentMovie.overview} />        
+            { renderVideo() }
           </div>
           <div className="col-md-4">
             { checkMoviesList() }
