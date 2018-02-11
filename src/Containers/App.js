@@ -25,7 +25,7 @@ class App extends React.Component {
 
   initMovies() {
     axios.get(`${API_END_POINT}${ POPULAR_MOVIES_URL }&${API_KEY}`).then(function(response){
-      this.setState({ 
+      this.setState({
         moviesList: response.data.results.slice(1, 6),
         currentMovie: response.data.results[0]}, function(response){
         this.applyVideoToCurrentMovie();
@@ -43,12 +43,21 @@ class App extends React.Component {
       });
     }.bind(this));
   }
+
+  onClickListItem(movie) {
+    console.log(movie);
+    this.setState({
+      currentMovie: movie}, function() {
+      this.applyVideoToCurrentMovie();
+      }
+    )
+  }
   
   render(){
 
-    const checkMoviesList = () => { 
+    const checkMoviesList = () => {
       if (this.state.moviesList.length === 5) {
-        return <VideoList moviesList={ this.state.moviesList }/>
+        return <VideoList moviesList={ this.state.moviesList } callback={this.onClickListItem.bind(this)} />
       }
     }
 

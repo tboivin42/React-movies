@@ -1,10 +1,12 @@
 import React from 'react';
 import VideoListItem from '../Components/Video-list-item';
 
-const VideoList = ({ moviesList }) => {
+const VideoList = (props) => {
+
+  const { moviesList } = props;
 
   function receiveCallBack(movie) {
-    console.log('parent', movie)
+    props.callback(movie);
   }
 
   return (
