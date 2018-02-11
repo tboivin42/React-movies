@@ -54,10 +54,18 @@ class App extends React.Component {
 
     return (
       <div>
-        <SearchBar />
-        { checkMoviesList() }
-        <Video videoId={this.state.currentMovie.videoId} />
-        <VideoDetail title={ this.state.currentMovie.title } description={this.state.currentMovie.overview} />
+        <div className="search_bar">
+          <SearchBar />
+        </div>
+        <div className="row">
+          <div className="col-md-8">
+            <Video videoId={this.state.currentMovie.videoId} />
+            <VideoDetail title={ this.state.currentMovie.title } description={this.state.currentMovie.overview} />        
+          </div>
+          <div className="col-md-4">
+            { checkMoviesList() }
+          </div>
+        </div>
       </div>
       )
     }
