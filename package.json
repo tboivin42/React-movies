@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-pack-demarrage",
+  "name": "react-movies",
   "version": "1.0.0",
-  "description": "Un pack de démarrage pour React + Redux",
+  "description": "Find a movie trailer",
   "main": "index.js",
   "repository": "",
   "scripts": {
