@@ -14,7 +14,7 @@ const VideoList = (props) => {
       <ul>
         {
           moviesList.map(movie => {
-            return <VideoListItem key={ movie.id } movie={ movie } callback={receiveCallBack} />
+            return <VideoListItem key={ movie.id } movie={ movie } callback={ receiveCallBack } />
           })
         }
       </ul>

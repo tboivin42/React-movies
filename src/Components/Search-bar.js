@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { loadSearch, updateRecommendations } from '../actions';
 
 class SearchBar extends React.Component {
 
@@ -6,7 +8,7 @@ class SearchBar extends React.Component {
     super(props)
     this.state = {
       searchText: "", 
-      placeHolder:"Taper votre film..."
+      placeHolder:"Tapez votre film..."
     }
   }
 
@@ -16,7 +18,9 @@ class SearchBar extends React.Component {
   }
 
   handleOnClick = (e) => {
-    this.props.callback(this.state.searchText);
+    const { loadSearch } = this.props;
+    loadSearch(this.state.searchText);
+    // this.props.callback(this.state.searchText);
   }
 
   render() {
@@ -25,13 +29,16 @@ class SearchBar extends React.Component {
         <div className="col-lg-8 input-group">
           <input onKeyUp={this.handleChange.bind(this)} type="text" className="form-control input-lg" placeholder={this.state.placeHolder} />
           <span className="input-group-btn">
-            <button className="btn btn-secondary" onClick={this.handleOnClick.bind(this)}>Go</button>
+            <button className="btn btn-primary btn-lg active" onClick={this.handleOnClick.bind(this)}>Go</button>
           </span>
         </div>
       </div>
     )
   }
-
 }
 
-export default SearchBar;
+const mapDispatchToProps = {
+  loadSearch,
+}
+
+export default connect(null, mapDispatchToProps)(SearchBar);
